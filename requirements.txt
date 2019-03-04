@@ -1,0 +1,17 @@
+# local package
+-e .
+
+# external requirements
+pandas>=0.24.1
+scikit-learn>=0.20.3
+lightgbm>=2.2.3
+xgboost>=0.81
+skopt
+jupyter
+jupytext
+pyodbc
+sqlite3
+click
+pytest
+black
+python-dotenv>=0.5.1
