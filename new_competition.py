@@ -6,7 +6,7 @@ from subprocess import run
 from os import listdir, makedirs
 from os.path import abspath, join, pardir
 
-project_dir = join(abspath(__file__), pardir)
+from src.util import project_dir
 
 parser = argparse.ArgumentParser(description="Get set up for a new kaggle competition.")
 

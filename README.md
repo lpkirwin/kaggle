@@ -10,6 +10,7 @@ Basic repo (hopefully) applicable to many kaggle competitions
     conda activate kaggle
     pip install -r requirements.txt
     python -m ipykernel install --user --name kaggle
+    jupyter contrib nbextension install --user
 
 ## Kaggle API
 

@@ -7,7 +7,9 @@ scikit-learn>=0.20.3
 scikit-optimize
 lightgbm>=2.2.3
 xgboost>=0.81
+matplotlib
 jupyter
+jupyter_contrib_nbextensions
 jupytext
 pyodbc
 kaggle
@@ -16,3 +18,4 @@ ipykernel
 pytest
 pylint
 black
+pandas-profiling
