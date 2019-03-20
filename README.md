@@ -2,6 +2,10 @@
 
 Basic repo (hopefully) applicable to many kaggle competitions
 
+## To-do
+
+- [x] https://docs.python.org/3/library/uuid.html
+
 ## Environment
 
 ### Windows

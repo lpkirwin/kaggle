@@ -22,7 +22,7 @@ import pandas_profiling as pp
 # %autoreload 2
 
 # %%
-from src.util import set_context, raw_path, comp_path
+from src.util import set_context, raw_path, comp_path, reduce_mem_usage
 
 # %%
 set_context("titanic")
@@ -51,6 +51,9 @@ df.sample(10).sort_values("_test")
 
 # %%
 df.info(memory_usage="deep")
+
+# %%
+df = reduce_mem_usage(df)
 
 # %%
 obj_cols = df.select_dtypes("object").columns.tolist()
