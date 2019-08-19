@@ -4,9 +4,9 @@ import os
 import time
 import numpy as np
 from hashlib import md5
-from os.path import join, abspath, pardir
+from os.path import join, abspath, pardir, dirname
 
-project_dir = join(abspath(__file__), pardir, pardir)
+project_dir = join(dirname(abspath(__file__)), pardir)
 data_dir = join(project_dir, "data")
 
 CURRENT_COMPETITION = None

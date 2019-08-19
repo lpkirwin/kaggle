@@ -1,0 +1,17 @@
+name: kaggle
+channels:
+  - conda-forge
+dependencies:
+  - numpy
+  - pandas
+  - matplotlib
+  - seaborn
+  - jupyterlab
+  - scikit-learn
+  - scikit-optimize
+  - lightgbm
+  - kaggle
+  - black
+  - pip
+  - pip:
+    # - pip packages

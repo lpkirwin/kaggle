@@ -22,7 +22,7 @@ def main():
     
     print("\n --> Setting up for competition:", comp_name, "\n")
 
-    res = run(f"kaggle competitions files {comp_name}", capture_output=True)
+    res = run(f"kaggle competitions files {comp_name}", capture_output=True, shell=True)
     
     print(res.stdout.decode("utf-8"))
 
@@ -30,7 +30,7 @@ def main():
         print("Stopping.")
         return None
 
-    run(f"kaggle competitions leaderboard {comp_name} --show")
+    run(f"kaggle competitions leaderboard {comp_name} --show", shell=True)
 
     approve = input("\nWant to set up this competition? [y/n]: ")
 
@@ -49,7 +49,7 @@ def main():
     open(join(notebook_path, ".gitkeep"), "a").close()
 
     print("\nDownloading data to new folder:\n")
-    run(f"kaggle competitions download -p {raw_path} {comp_name}")
+    run(f"kaggle competitions download -p {raw_path} {comp_name}", shell=True)
 
     zip_files = [fn for fn in listdir(raw_path) if fn.endswith(".zip")]
     if len(zip_files):
