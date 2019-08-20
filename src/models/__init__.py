@@ -7,11 +7,37 @@ Common stragies:
 
 """
 
+from skopt import BayesSearchCV
 from skopt.space import Real, Categorical, Integer
 
 from sklearn.model_selection import cross_val_predict
 
 import pandas as pd
+
+# Temporary monkey patch
+# https://github.com/scikit-optimize/scikit-optimize/issues/762
+class BayesSearchCV2(BayesSearchCV):
+    
+    def __init__(self, estimator, search_spaces, optimizer_kwargs=None,
+                 n_iter=50, scoring=None, fit_params=None, n_jobs=1,
+                 n_points=1, iid=True, refit=True, cv=None, verbose=0,
+                 pre_dispatch='2*n_jobs', random_state=None,
+                 error_score='raise', return_train_score=False):
+
+        self.search_spaces = search_spaces
+        self.n_iter = n_iter
+        self.n_points = n_points
+        self.random_state = random_state
+        self.optimizer_kwargs = optimizer_kwargs
+        self._check_search_space(self.search_spaces)
+        self.fit_params = fit_params
+
+        super(BayesSearchCV, self).__init__(
+            estimator=estimator, scoring=scoring,
+            n_jobs=n_jobs, iid=iid, refit=refit, cv=cv, verbose=verbose,
+            pre_dispatch=pre_dispatch, error_score=error_score,
+            return_train_score=return_train_score)
+
 
 PARAMS_SKOPT = {
     "lgb_small_trees": {

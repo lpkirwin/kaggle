@@ -4,6 +4,8 @@ channels:
 dependencies:
   - numpy
   - pandas
+  - pandas-profiling
+  - vaex
   - matplotlib
   - seaborn
   - jupyterlab
@@ -12,6 +14,7 @@ dependencies:
   - lightgbm
   - kaggle
   - black
+  - tqdm
   - pip
   - pip:
-    # - pip packages
+    - -e .

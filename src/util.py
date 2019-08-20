@@ -4,12 +4,20 @@ import os
 import time
 import numpy as np
 from hashlib import md5
+from tqdm import tqdm
 from os.path import join, abspath, pardir, dirname
 
 project_dir = join(dirname(abspath(__file__)), pardir)
 data_dir = join(project_dir, "data")
 
 CURRENT_COMPETITION = None
+
+
+def get_path(relative_path):
+    """Path relative to competition data folder"""
+    get_context()
+    parts = relative_path.split("/")
+    return join(*[data_dir, CURRENT_COMPETITION] + parts)
 
 
 def comp_path(filename):
@@ -55,7 +63,7 @@ def list_files(path):
 def reduce_mem_usage(df, verbose=True):
     numerics = ["int8", "int16", "int32", "int64", "float16", "float32", "float64"]
     start_mem = df.memory_usage().sum() / 1024 ** 2
-    for col in df.columns:
+    for col in tqdm(df.columns):
         col_type = df[col].dtypes
         if col_type in numerics:
             c_min = df[col].min()
