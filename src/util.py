@@ -2,10 +2,13 @@
 
 import os
 import time
-import numpy as np
 from hashlib import md5
+from os.path import abspath, dirname, join, pardir
+
+import joblib
+import numpy as np
+import pandas as pd
 from tqdm import tqdm
-from os.path import join, abspath, pardir, dirname
 
 project_dir = join(dirname(abspath(__file__)), pardir)
 data_dir = join(project_dir, "data")
@@ -100,6 +103,21 @@ def save_model(est, oof_pred, te_pred):
 
     ref = get_obj_ref(est)
 
-    pd.Series(oof_pred).to_pickle(join(get_dpath))
+    with open(join(get_dpath(), "models", f"{ref}.joblib"), 'wb') as f:
+        joblib.dump(est, f)
 
-    te_pred = pd.Series(te_pred)
+    pd.Series(oof_pred).to_pickle(join(get_dpath, "oof", f"{ref}.pkl"))
+    pd.Series(te_pred).to_pickle(join(get_dpath, "te_pred", f"{ref}.pkl"))
+
+    return None
+
+
+def load_model(ref):
+
+    with open(join(get_dpath(), "models", f"{ref}.joblib"), 'rb') as f:
+        est = joblib.load(f)
+
+    oof_pred = pd.read_pickle(join(get_dpath, "oof", f"{ref}.pkl"))
+    te_pred = pd.read_pickle(join(get_dpath, "te_pred", f"{ref}.pkl"))
+
+    return est, oof_pred, te_pred
