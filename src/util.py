@@ -13,22 +13,6 @@ data_dir = join(project_dir, "data")
 CURRENT_COMPETITION = None
 
 
-def get_path(relative_path):
-    """Path relative to competition data folder"""
-    get_context()
-    parts = relative_path.split("/")
-    return join(*[data_dir, CURRENT_COMPETITION] + parts)
-
-
-def comp_path(filename):
-    get_context()
-    return join(data_dir, CURRENT_COMPETITION, filename)
-
-
-def raw_path(filename):
-    get_context()
-    return join(data_dir, CURRENT_COMPETITION, "raw", filename)
-
 
 def set_context(comp_name):
     data_subdirs = os.listdir(data_dir)
@@ -45,6 +29,12 @@ def get_context():
     assert CURRENT_COMPETITION is not None, "CURRENT_COMPETITION not set!"
     return CURRENT_COMPETITION
 
+
+def get_dpath(relative_path):
+    """Path relative to competition data folder"""
+    get_context()
+    parts = relative_path.split("/")
+    return join(*[data_dir, CURRENT_COMPETITION] + parts)
 
 # https://stackoverflow.com/questions/9727673/list-directory-tree-structure-in-python
 def list_files(path):
@@ -104,3 +94,12 @@ def get_obj_ref(obj, hash_len=8):
     obj_type = repr(type(obj)).split(".")[-1][:-2]
     obj_hash = md5(repr(obj).encode("utf-8")).hexdigest()[-hash_len:]
     return obj_type + "_" + obj_hash
+
+
+def save_model(est, oof_pred, te_pred):
+
+    ref = get_obj_ref(est)
+
+    pd.Series(oof_pred).to_pickle(join(get_dpath))
+
+    te_pred = pd.Series(te_pred)

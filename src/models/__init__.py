@@ -7,12 +7,13 @@ Common stragies:
 
 """
 
-from skopt import BayesSearchCV
-from skopt.space import Real, Categorical, Integer
-
-from sklearn.model_selection import cross_val_predict
-
 import pandas as pd
+from sklearn.model_selection import cross_val_predict
+from skopt import BayesSearchCV
+from skopt.space import Categorical, Integer, Real
+from os.path import join
+
+
 
 # Temporary monkey patch
 # https://github.com/scikit-optimize/scikit-optimize/issues/762
@@ -45,12 +46,14 @@ PARAMS_SKOPT = {
         "max_depth": Integer(1, 8),
         "num_leaves": Integer(4, 32),
         "learning_rate": Real(0.0001, 10, prior="log-uniform"),
+        "cat_smooth": Real(0.01, 100, prior="log-uniform"),
     },
     "lgb_big_trees": {
         "n_estimators": Integer(5, 500),
         "max_depth": Integer(100, 200),
         "num_leaves": Integer(50, 500),
         "learning_rate": Real(0.0001, 10, prior="log-uniform"),
+        "cat_smooth": Real(0.01, 100, prior="log-uniform"),
     },
 }
 
@@ -71,7 +74,6 @@ PARAMS_SKOPT = {
 
 PARAMS_GRID = {}
 
-
 def get_oof_predictions(estimator, X, y, cv=5, fit_params=None, n_jobs=-1):
     return cross_val_predict(estimator, X, y, cv=cv, n_jobs=n_jobs, fit_params=fit_params)
 
@@ -84,5 +86,3 @@ def run_estimator_cv(estimator_cv, fit_params, X, y):
     best_est = estimator_cv.best_estimator_
     cv_df = pd.DataFrame(estimator_cv.cv_results_)
     return best_params, best_est, cv_df
-
-
