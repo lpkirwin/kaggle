@@ -90,3 +90,6 @@ target/
 
 # nohup
 nohup.out
+
+# conda
+.conda/
