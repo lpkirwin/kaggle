@@ -5,10 +5,10 @@ dependencies:
   - numpy
   - pandas
   - pandas-profiling
-  - vaex
+  # - vaex
   - matplotlib
   - seaborn
-  - jupyterlab
+  - jupyter
   - scikit-learn
   - scikit-optimize
   - lightgbm
@@ -16,5 +16,5 @@ dependencies:
   - black
   - tqdm
   - pip
-  - pip:
-    - -e .
+  # - pip:
+    # - -e .

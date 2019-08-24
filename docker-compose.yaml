@@ -1,0 +1,15 @@
+# Not used at this point in time
+
+# version: '0'
+# services:
+#   notebook:
+#     container_name: kaggle_notebook
+#     labels:
+#       name: jupyter notebook 
+#     ports:
+#       - "8888:8888"
+#     volumes:
+#       - ./notebooks:/home/notebooks
+#       - ./data:/home/data
+#       -
+#     build: . 
