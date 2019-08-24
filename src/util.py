@@ -99,15 +99,17 @@ def get_obj_ref(obj, hash_len=8):
     return obj_type + "_" + obj_hash
 
 
-def save_model(est, oof_pred, te_pred):
+def save_model(est, oof_pred=None, te_pred=None):
 
     ref = get_obj_ref(est)
 
     with open(join(get_dpath(), "models", f"{ref}.joblib"), 'wb') as f:
         joblib.dump(est, f)
 
-    pd.Series(oof_pred).to_pickle(join(get_dpath, "oof", f"{ref}.pkl"))
-    pd.Series(te_pred).to_pickle(join(get_dpath, "te_pred", f"{ref}.pkl"))
+    if oof_pred is not None:
+        pd.Series(oof_pred).to_pickle(join(get_dpath, "oof", f"{ref}.pkl"))
+    if te_pred is not None:
+        pd.Series(te_pred).to_pickle(join(get_dpath, "te_pred", f"{ref}.pkl"))
 
     return None
 
@@ -116,8 +118,15 @@ def load_model(ref):
 
     with open(join(get_dpath(), "models", f"{ref}.joblib"), 'rb') as f:
         est = joblib.load(f)
+    
+    try:
+        oof_pred = pd.read_pickle(join(get_dpath, "oof", f"{ref}.pkl"))
+    except FileNotFoundError:
+        oof_pred = None
 
-    oof_pred = pd.read_pickle(join(get_dpath, "oof", f"{ref}.pkl"))
-    te_pred = pd.read_pickle(join(get_dpath, "te_pred", f"{ref}.pkl"))
+    try:
+        te_pred = pd.read_pickle(join(get_dpath, "te_pred", f"{ref}.pkl"))
+    except FileNotFoundError:
+        te_pred = None
 
     return est, oof_pred, te_pred
